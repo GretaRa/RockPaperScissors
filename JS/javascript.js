@@ -9,6 +9,7 @@ function getComputerChoice(){
     return(ComputerChoice);
 }
 
+let buttons = document.querySelectorAll('button');
 //select div container
 const container = document.querySelector('.container');
 //create element for showing overall scores
@@ -25,12 +26,17 @@ const roundResult = document.createElement('p');
 roundResult.classList.add('roundResult');
 container.appendChild(roundResult);
 
+//create final result output
+const finalResult = document.createElement('p');
+finalResult.classList.add('finalResult');
+container.appendChild(finalResult);
+
 //variables to record the scores
 let playerScore = 0;
 let computerScore = 0;
 
 //add element for tracking scores
-userPoints.textContent = `Player score: ${playerScore}`;
+userPoints.textContent = `Your score: ${playerScore}`;
 computerPoints.textContent = `Computer score: ${computerScore}`;
 
 //play single round of game
@@ -39,30 +45,61 @@ function playRound(playerSelection, computerSelection){
 
     //make conditions
     if (playerSelection === computerSelection){
-        
         roundResult.textContent = 'This turn is a tie';
-        playerScore++;
-        computerScore++;
     } else if (playerSelection === 'rock' && computerSelection === 'scissors'){
         roundResult.textContent = 'You Win this turn! Rock beats Scissors';
-        playerScore++;
     } else if (playerSelection === 'paper' && computerSelection === 'rock'){
         roundResult.textContent = 'You Win this turn! Paper beats Rock';
-        playerScore++;
     } else if (playerSelection === 'scissors' && computerSelection === 'paper'){
         roundResult.textContent = 'You Win this turn! Scissors beat rock';
-        playerScore++;
     } else if (playerSelection === 'rock' && computerSelection === 'paper'){
         roundResult.textContent = 'You Lose this turn. Paper beats Rock';
-        computerScore++;
     } else if (playerSelection === 'paper' && computerSelection === 'scissors'){
         roundResult.textContent = 'You Lose this turn. Scissors beat Paper';
-        computerScore++;
     } else if (playerSelection === 'scissors' && computerSelection === 'rock'){
         roundResult.textContent = 'You Lose this turn. Rock beats Scissors';
-        computerScore++;
     }   
 }
+
+function calcScore(){
+    if (roundResult.innerHTML.includes('tie')){
+        computerScore++;
+        computerPoints.innerHTML = `Computer score: ${computerScore}`;
+        playerScore++;
+        userPoints.innerHTML = `Your score: ${playerScore}`;
+        return;
+    } else if (roundResult.innerHTML.includes('You Lose')){
+        computerScore++;
+        computerPoints.innerHTML = `Computer score: ${computerScore}`;
+        return;
+    } else if (roundResult.innerHTML.includes('You Win')){
+        playerScore++;
+        userPoints.innerHTML = `Your score: ${playerScore}`;
+        return;
+    }
+}
+
+function endGame() {
+    if (computerScore === 5) finalResult.textContent = 'Computer wins..';
+    if (playerScore === 5) finalResult.textContent = 'You win!';
+
+    if (playerScore === 5 || computerScore === 5){
+        for (let i = 0; i < buttons.length; i++){
+            buttons[i].disabled = true;
+        }
+        const retry = document.querySelector('.retry');
+        const retryBtn = document.createElement('button');
+            retryBtn.classList.add('retryBtn');
+            retryBtn.textContent = 'Try again';
+            retry.appendChild(retryBtn);
+
+        retryBtn.addEventListener('click', () => {
+            document.location.reload();
+            clearInterval(interval);
+        });
+    }
+}
+
 
 //when pressing button player selects their choice wether its rock paper or scissors
 //button then plays a turn, if player wins, a point is awarded to him
@@ -72,54 +109,20 @@ function playRound(playerSelection, computerSelection){
 const btnRock = document.querySelector('.btnRock');
 btnRock.addEventListener('click', () => {
     playRound('rock', getComputerChoice());
-    //add element for tracking scores
-    userPoints.textContent = `Player score: ${playerScore}`;
-    computerPoints.textContent = `Computer score: ${computerScore}`;
-
-    if (playerScore === 5){
-        alert('You win!!!')
-        document.location.reload();
-        clearInterval(interval);
-    } else if(computerScore === 5){
-        alert('You lose..')
-        document.location.reload();
-        clearInterval(interval);
-    }
+    calcScore();
+    endGame();
 });
 
 const btnPaper = document.querySelector('.btnPaper');
 btnPaper.addEventListener('click', () => {
     playRound('paper', getComputerChoice());
-    //add element for tracking scores
-    userPoints.textContent = `Player score: ${playerScore}`;
-    computerPoints.textContent = `Computer score: ${computerScore}`;
-
-    if (playerScore === 5){
-        alert('You win!!!')
-        document.location.reload();
-        clearInterval(interval);
-    } else if(computerScore === 5){
-        alert('You lose..')
-        document.location.reload();
-        clearInterval(interval);
-    }
+    calcScore();
+    endGame();
 });
 
 const btnScissors = document.querySelector('.btnScissors');
 btnScissors.addEventListener('click', () => {
     playRound('scissors', getComputerChoice());
-    //add element for tracking scores
-    userPoints.textContent = `Player score: ${playerScore}`;
-    computerPoints.textContent = `Computer score: ${computerScore}`;
-    
-    if (playerScore === 5){
-        alert('You win!!!')
-        document.location.reload();
-        clearInterval(interval);
-    } else if(computerScore === 5){
-        alert('You lose..')
-        document.location.reload();
-        clearInterval(interval);
-    }
-    
+    calcScore();
+    endGame();
 });

@@ -1,0 +1,56 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+h1{
+    margin-top: 2rem;
+}
+
+.btnRock{
+    background-image: url(./Images/rock.png);
+    
+}
+
+.btnPaper{
+    background-image: url(./Images/paper.png);
+}
+
+.btnScissors{
+    background-image: url(./Images/scissors.png);
+}
+
+.btnPaper,
+.btnRock,
+.btnScissors{
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 5rem;
+    background-size: 7rem;
+    background-color: #fff;
+}
+
+.btnPaper:hover,
+.btnRock:hover,
+.btnScissors:hover,
+.retryBtn:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.retryBtn{
+    padding: 2rem;
+    background-color: #fff;
+    font-size: 2rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
