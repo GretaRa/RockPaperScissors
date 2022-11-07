@@ -80,8 +80,13 @@ function calcScore(){
 }
 
 function endGame() {
-    if (computerScore === 5) finalResult.textContent = 'Computer wins..';
-    if (playerScore === 5) finalResult.textContent = 'You win!';
+    if (computerScore === 5 && playerScore === 5) {
+        finalResult.textContent = 'It\'s a tie!';
+    } else if (computerScore === 5 && playerScore <= 5){
+        finalResult.textContent = 'Computer wins the game..';
+    } else if (playerScore === 5 && computerScore <= 5){
+        finalResult.textContent = 'You win the game!';
+    }
 
     if (playerScore === 5 || computerScore === 5){
         for (let i = 0; i < buttons.length; i++){
